@@ -6,6 +6,11 @@ import java.io.DataOutputStream;
 public class Calculator {
     private DataInputStream in;
     private DataOutputStream out;
+    private JTextField operationField;
+    private String operand = "";
+    private String operator = "";
+    private String currentData = "first";
+    private String operation = "";
 
     public Calculator(int number) throws UnsupportedLookAndFeelException, ClassNotFoundException,
             InstantiationException, IllegalAccessException {
@@ -15,7 +20,6 @@ public class Calculator {
         in = new DataInputStream(sc.getInputStream());
         out = new DataOutputStream(sc.getOutputStream());
          */
-        String operand1, operator, operand2;
 
         JFrame window = new JFrame("Calculator");
         window.setResizable(false);
@@ -25,7 +29,7 @@ public class Calculator {
 
         JPanel button_area = new JPanel();
 
-        JTextField operationField = new JTextField(16);
+        operationField = new JTextField(30);
         operationField.setEditable(false);
 
         JButton button0, button1, button2, button3, button4, button5, button6, button7, button8, button9, addButton,
@@ -81,13 +85,15 @@ public class Calculator {
 
         moduleButton.addActionListener(e -> button_logic("%", "operator"));
 
-        equalsButton.addActionListener(e -> button_logic("=", "operator"));
+        equalsButton.addActionListener(e -> button_logic("=", "result"));
 
         leftPar.addActionListener(e -> button_logic("(", "operand"));
 
         rightPar.addActionListener(e -> button_logic(")", "operand"));
 
-        clear.addActionListener(e -> button_logic("C", "operator"));
+        clear.addActionListener(e -> button_logic("C", "clear"));
+
+        button_area.add(operationField);
 
         button_area.add(button0);
         button_area.add(button1);
@@ -109,19 +115,40 @@ public class Calculator {
         button_area.add(rightPar);
         button_area.add(clear);
 
-        window.add(button_area);
-        button_area.add(operationField);
 
+        window.add(button_area);
         window.setVisible(true);
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
     public void button_logic(String value, String function) {
-        if (function.equals("operand")) {
-            System.out.println("That's an operand!");
+        if (function.equals("result")) {
+            System.out.println(operationField.getText());
+        } else if (function.equals("clear")) {
+            currentData = "first";
+            operand = "";
+            operator = "";
+            operation = "";
         } else {
-            System.out.println("That's an operator!");
+            switch (currentData) {
+                case "first":
+                    if (function.equals("operand")) {
+                        operation = operation + value;
+                        currentData = "operand";
+                    }
+                    break;
+                case "operand":
+                    if (function.equals("operand")) {
+                        operation = operation + value;
+                    } else {
+                        operator = value;
+                        operation = operation + value;
+                        currentData = "operand";
+                    }
+                    break;
+            }
         }
+        operationField.setText(operation);
     }
 
     public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException,
