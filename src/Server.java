@@ -1,8 +1,8 @@
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Server {
     private DataInputStream in;
@@ -22,6 +22,30 @@ public class Server {
             out = new DataOutputStream(sc.getOutputStream());
 
             //System.out.println(in.readInt()*2);
+        }
+    }
+
+    public void csv_write(String action) throws IOException {
+        DateTimeFormatter date = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime time = LocalDateTime.now();
+        String file_path = "csv_files/operations.csv";
+
+        String expression = "";
+
+        if (action.equals("clear")) {
+            FileWriter fw = new FileWriter(file_path, false);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter pw = new PrintWriter(bw);
+            pw.println("");
+            pw.flush();
+            pw.close();
+        } else {
+            FileWriter fw = new FileWriter(file_path, true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter pw = new PrintWriter(bw);
+            pw.println(file_path+","+expression+","+date.format(time));
+            pw.flush();
+            pw.close();
         }
     }
 

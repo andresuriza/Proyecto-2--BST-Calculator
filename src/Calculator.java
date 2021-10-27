@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Calculator {
     private DataInputStream in;
@@ -154,5 +156,8 @@ public class Calculator {
     public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException,
             InstantiationException, IllegalAccessException {
         Calculator C1 = new Calculator(1);
+        DateTimeFormatter date = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime time = LocalDateTime.now();
+        System.out.println(date.format(time));
     }
 }
