@@ -14,18 +14,19 @@ public class Server {
         this.port = port;
 
         ServerSocket server = new ServerSocket(port);
-        System.out.println("Client connected");
 
-        while (true) {
+        /*while (true) {
             Socket sc = server.accept();
             in = new DataInputStream(sc.getInputStream());
             out = new DataOutputStream(sc.getOutputStream());
 
             //System.out.println(in.readInt()*2);
         }
+
+         */
     }
 
-    public void csv_write(String action) throws IOException {
+    public void csv_write(String action, String operation) throws IOException {
         DateTimeFormatter date = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime time = LocalDateTime.now();
         String file_path = "csv_files/operations.csv";
@@ -43,7 +44,7 @@ public class Server {
             FileWriter fw = new FileWriter(file_path, true);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter pw = new PrintWriter(bw);
-            pw.println(file_path+","+expression+","+date.format(time));
+            pw.println(operation + "," + "result" + "," + date.format(time));
             pw.flush();
             pw.close();
         }

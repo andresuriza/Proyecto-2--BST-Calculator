@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -15,7 +16,7 @@ public class Calculator {
     private String operation = "";
 
     public Calculator(int number) throws UnsupportedLookAndFeelException, ClassNotFoundException,
-            InstantiationException, IllegalAccessException {
+            InstantiationException, IllegalAccessException, IOException {
         /*
         Socket sc = new Socket("localhost", 5000);
         System.out.println("Connected");
@@ -23,7 +24,7 @@ public class Calculator {
         out = new DataOutputStream(sc.getOutputStream());
          */
 
-        JFrame window = new JFrame("Calculator");
+        JFrame window = new JFrame("Calculator" + number);
         window.setResizable(false);
         window.setSize(330, 590);
 
@@ -57,43 +58,158 @@ public class Calculator {
         rightPar = new JButton(")");
         clear = new JButton("C");
 
-        button0.addActionListener(e -> button_logic("0", "operand"));
 
-        button1.addActionListener(e -> button_logic("1", "operand"));
+        button0.addActionListener(e -> {
+            try {
+                button_logic("0", "operand");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
 
-        button2.addActionListener(e -> button_logic("2", "operand"));
+        button1.addActionListener(e -> {
+            try {
+                button_logic("1", "operand");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
 
-        button3.addActionListener(e -> button_logic("3", "operand"));
+        button2.addActionListener(e -> {
+            try {
+                button_logic("2", "operand");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
 
-        button4.addActionListener(e -> button_logic("4", "operand"));
+        button3.addActionListener(e -> {
+            try {
+                button_logic("3", "operand");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
 
-        button5.addActionListener(e -> button_logic("5", "operand"));
+        button4.addActionListener(e -> {
+            try {
+                button_logic("4", "operand");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
 
-        button6.addActionListener(e -> button_logic("6", "operand"));
+        button5.addActionListener(e -> {
+            try {
+                button_logic("5", "operand");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
 
-        button7.addActionListener(e -> button_logic("7", "operand"));
+        button6.addActionListener(e -> {
+            try {
+                button_logic("6", "operand");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
 
-        button8.addActionListener(e -> button_logic("8", "operand"));
+        button7.addActionListener(e -> {
+            try {
+                button_logic("7", "operand");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
 
-        button9.addActionListener(e -> button_logic("9", "operand"));
+        button8.addActionListener(e -> {
+            try {
+                button_logic("8", "operand");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
 
-        addButton.addActionListener(e -> button_logic("+", "operator"));
+        button9.addActionListener(e -> {
+            try {
+                button_logic("9", "operand");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
 
-        minusButton.addActionListener(e -> button_logic("-", "operator"));
+        addButton.addActionListener(e -> {
+            try {
+                button_logic("+", "operator");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
 
-        multiplyButton.addActionListener(e -> button_logic("*", "operator"));
+        minusButton.addActionListener(e -> {
+            try {
+                button_logic("-", "operator");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
 
-        divideButton.addActionListener(e -> button_logic("/", "operator"));
+        multiplyButton.addActionListener(e -> {
+            try {
+                button_logic("*", "operator");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
 
-        moduleButton.addActionListener(e -> button_logic("%", "operator"));
+        divideButton.addActionListener(e -> {
+            try {
+                button_logic("/", "operator");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
 
-        equalsButton.addActionListener(e -> button_logic("=", "result"));
+        moduleButton.addActionListener(e -> {
+            try {
+                button_logic("%", "operator");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
 
-        leftPar.addActionListener(e -> button_logic("(", "operand"));
+        equalsButton.addActionListener(e -> {
+            try {
+                button_logic("=", "result");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
 
-        rightPar.addActionListener(e -> button_logic(")", "operand"));
+        leftPar.addActionListener(e -> {
+            try {
+                button_logic("(", "operand");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
 
-        clear.addActionListener(e -> button_logic("C", "clear"));
+        rightPar.addActionListener(e -> {
+            try {
+                button_logic(")", "operand");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+
+        clear.addActionListener(e -> {
+            try {
+                button_logic("C", "clear");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
 
         button_area.add(operationField);
 
@@ -123,9 +239,10 @@ public class Calculator {
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
-    public void button_logic(String value, String function) {
+    public void button_logic(String value, String function) throws IOException {
         if (function.equals("result")) {
             System.out.println(operationField.getText());
+
         } else if (function.equals("clear")) {
             currentData = "first";
             operand = "";
@@ -154,10 +271,16 @@ public class Calculator {
     }
 
     public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException,
-            InstantiationException, IllegalAccessException {
+            InstantiationException, IllegalAccessException, IOException {
+
         Calculator C1 = new Calculator(1);
-        DateTimeFormatter date = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        LocalDateTime time = LocalDateTime.now();
-        System.out.println(date.format(time));
+
+        /*
+        public void thread_the_creator() {
+            new Thread(() -> {
+                // code
+            }).start();
+        }
+         */
     }
 }
