@@ -1,2 +1,2 @@
-# Proyecto 2 - BST Calculator
+# Proyecto II - Evaluacion de expresiones matematicas
  
