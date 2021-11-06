@@ -141,7 +141,7 @@ public class Calculator {
 
         addButton.addActionListener(e -> {
             try {
-                button_logic("+", "operator");
+                button_logic(" + ", "operator");
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -149,7 +149,7 @@ public class Calculator {
 
         minusButton.addActionListener(e -> {
             try {
-                button_logic("-", "operator");
+                button_logic(" - ", "operator");
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -157,7 +157,7 @@ public class Calculator {
 
         multiplyButton.addActionListener(e -> {
             try {
-                button_logic("*", "operator");
+                button_logic(" * ", "operator");
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -165,7 +165,7 @@ public class Calculator {
 
         divideButton.addActionListener(e -> {
             try {
-                button_logic("/", "operator");
+                button_logic(" / ", "operator");
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -173,7 +173,7 @@ public class Calculator {
 
         moduleButton.addActionListener(e -> {
             try {
-                button_logic("%", "operator");
+                button_logic(" % ", "operator");
             } catch (IOException ex) {
                 ex.printStackTrace();
             }

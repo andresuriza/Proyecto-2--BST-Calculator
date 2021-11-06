@@ -1,31 +1,32 @@
 public class Node {
-    public Object element;
+    public String data;
     public Node left;
     public Node right;
 
-    public Node(Object data) {  // init?
+    public Node(String data) {  // init?
         this.left = null;
         this.right = null;
-        this.element = data;
+        this.data = data;
     }
 
     public Object getData() {
-        return this.element;
+        return this.data;
     }
 
-    public void setData(Object data) {
-        this.element = data;
+    public Object getRight() {
+        return this.right.data;
     }
 
-    public Object getNext() {
-        return this.right.element;
+    public Object getLeft() {
+        return this.left.data;
     }
 
-    public Object getPrevious() {
-        return this.left.element;
-    }
-
-    public void setNext(Node node) {
+    public void setRight(Node node) {
         this.right = node;
     }
+
+    public void setLeft(Node node) {
+        this.left = node;
+    }
 }
+
