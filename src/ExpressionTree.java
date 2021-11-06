@@ -1,7 +1,17 @@
 import java.util.Stack;
 
+/**
+ * @author Andres Uria
+ * @author Jose Pablo Esquetini
+ *
+ * This class creates an expression tree based on a binary search tree and the postfix notation
+ */
 public class ExpressionTree {
 
+	/**
+	 * Constructor method
+	 * @param expression
+	 */
 	public ExpressionTree(String expression){
 		String infix = expression;
 		Infix_to_Postfix inToPost = new Infix_to_Postfix(infix);
@@ -15,6 +25,12 @@ public class ExpressionTree {
 		System.out.println(result);
 	}
 
+	/**
+	 *
+	 * Converts expression from infix to postfix
+	 * @param expression
+	 * @return
+	 */
 	public String[] convertion(String expression) {
 		char[] expressionList = expression.toCharArray();
 		String operand = "";
@@ -58,6 +74,12 @@ public class ExpressionTree {
 		return result;
 	}
 
+	/**
+	 *
+	 * Creates the tree nodes
+	 * @param expression
+	 * @return
+	 */
 	public Node treeConstruction(String[] expression) {
 		Stack<Node> buildStack = new Stack<Node>();
 		Node top;
@@ -90,10 +112,20 @@ public class ExpressionTree {
 		return root;
 	}
 
+	/**
+	 * Checks if data input is an operator
+	 * @param data
+	 * @return
+	 */
 	public boolean isOperator(String data) {
 		return (data == "+" || data == "-" || data == "*" || data == "/" || data == "%");
 	}
 
+	/**
+	 * Gives a result to the expression in the tree
+	 * @param root
+	 * @return
+	 */
 	public int evaluateTree(Node root) {
 		int result = 0;
 		if (root == null) {
@@ -120,9 +152,12 @@ public class ExpressionTree {
 
 	}
 
-	public static void main(String Args[]) {
-		String hello = "10 + 9";
+	/*
+	public static void main(String[] args) {
+		String hello = "10+9";
 		ExpressionTree test = new ExpressionTree(hello);
 
 	}
+
+	 */
 }

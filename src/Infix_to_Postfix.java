@@ -1,15 +1,29 @@
 import java.util.Stack;
 
+/**
+ * @author Andres Uriza
+ * @author Jose Pablo Esquetini
+ *
+ * This class converts an infix operation to postfix notation
+ */
 public class Infix_to_Postfix {
    private Stack<Character> theStack;
    private String input;
    private String output = "";
-   
+
+   /**
+    * Constructor method
+    * @param expression
+    */
    public Infix_to_Postfix(String expression) {
       input = expression;
       theStack = new Stack<Character>();
    }
 
+   /**
+    *
+    * @return
+    */
    public String doTrans() {
       for (int j = 0; j < input.length(); j++) {
          char ch = input.charAt(j);
@@ -43,6 +57,11 @@ public class Infix_to_Postfix {
       return output; 
    }
 
+   /**
+    *
+    * @param opThis
+    * @param prec1
+    */
    public void gotOper(char opThis, int prec1) {
       while (!theStack.isEmpty()) {
          char opTop = theStack.pop();
@@ -66,6 +85,10 @@ public class Infix_to_Postfix {
       theStack.push(opThis);
    }
 
+   /**
+    *
+    * @param ch
+    */
    public void gotParen(char ch) { 
       while (!theStack.isEmpty()) {
          char chx = theStack.pop();

@@ -1,11 +1,22 @@
-import javax.swing.*;
-import java.awt.*;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.net.Socket;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.WindowConstants;
+
+/**
+ * @author Andres Uriza
+ * @author Jose Pablo Esquetini
+ * <p>
+ * This class creates an interface as well as a client to connect to a server, its funcionality is based on a calculator
+ */
 public class Calculator {
     private DataInputStream in;
     private DataOutputStream out;
@@ -15,28 +26,39 @@ public class Calculator {
     private String currentData = "first";
     private String operation = "";
 
+    /**
+     * Constructor method
+     *
+     * @param number
+     * @throws UnsupportedLookAndFeelException
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws IOException
+     */
     public Calculator(int number) throws UnsupportedLookAndFeelException, ClassNotFoundException,
             InstantiationException, IllegalAccessException, IOException {
-        /*
+
         Socket sc = new Socket("localhost", 5000);
         System.out.println("Connected");
         in = new DataInputStream(sc.getInputStream());
         out = new DataOutputStream(sc.getOutputStream());
-         */
 
         JFrame window = new JFrame("Calculator" + number);
         window.setResizable(false);
         window.setSize(330, 590);
+        window.setLayout(null);
 
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
         JPanel button_area = new JPanel();
+        button_area.setBounds(10, 0, 300, 200);
 
-        operationField = new JTextField(30);
+        operationField = new JTextField(25);
         operationField.setEditable(false);
 
         JButton button0, button1, button2, button3, button4, button5, button6, button7, button8, button9, addButton,
-                minusButton, multiplyButton, divideButton, moduleButton, equalsButton, leftPar, rightPar, clear;
+                minusButton, multiplyButton, divideButton, moduleButton, equalsButton, leftPar, rightPar, clear, history;
 
         button0 = new JButton("0");
         button1 = new JButton("1");
@@ -57,6 +79,7 @@ public class Calculator {
         leftPar = new JButton("(");
         rightPar = new JButton(")");
         clear = new JButton("C");
+        history = new JButton("History");
 
 
         button0.addActionListener(e -> {
@@ -141,7 +164,7 @@ public class Calculator {
 
         addButton.addActionListener(e -> {
             try {
-                button_logic(" + ", "operator");
+                button_logic("+", "operator");
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -149,7 +172,7 @@ public class Calculator {
 
         minusButton.addActionListener(e -> {
             try {
-                button_logic(" - ", "operator");
+                button_logic("-", "operator");
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -157,7 +180,7 @@ public class Calculator {
 
         multiplyButton.addActionListener(e -> {
             try {
-                button_logic(" * ", "operator");
+                button_logic("*", "operator");
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -165,7 +188,7 @@ public class Calculator {
 
         divideButton.addActionListener(e -> {
             try {
-                button_logic(" / ", "operator");
+                button_logic("/", "operator");
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -173,7 +196,7 @@ public class Calculator {
 
         moduleButton.addActionListener(e -> {
             try {
-                button_logic(" % ", "operator");
+                button_logic("%", "operator");
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -189,7 +212,7 @@ public class Calculator {
 
         leftPar.addActionListener(e -> {
             try {
-                button_logic("( ", "operand");
+                button_logic("(", "operand");
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -197,7 +220,7 @@ public class Calculator {
 
         rightPar.addActionListener(e -> {
             try {
-                button_logic(" )", "operand");
+                button_logic(")", "operand");
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -234,14 +257,25 @@ public class Calculator {
         button_area.add(clear);
 
 
+        window.add(history);
+        history.setBounds(90, 500, 150, 40);
+
         window.add(button_area);
+
         window.setVisible(true);
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
+    /**
+     * Interprets the button input into an infix operation
+     *
+     * @param value
+     * @param function
+     * @throws IOException
+     */
     public void button_logic(String value, String function) throws IOException {
         if (function.equals("result")) {
-            System.out.println(operationField.getText());
+            thread_the_creator();
 
         } else if (function.equals("clear")) {
             currentData = "first";
@@ -270,17 +304,36 @@ public class Calculator {
         operationField.setText(operation);
     }
 
-    public static void main(String[] args) throws UnsupportedLookAndFeelException, ClassNotFoundException,
-            InstantiationException, IllegalAccessException, IOException {
+    /**
+     * Creates threads
+     */
+    public void thread_the_creator() {
+        new Thread(() -> {
+            try {
+                out.writeUTF(operationField.getText());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                operationField.setText(in.readUTF());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
 
+    /**
+     * Main function that creates instances of calculators
+     *
+     * @param args
+     * @throws UnsupportedLookAndFeelException
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     */
+    public static void main(String[] args) throws UnsupportedLookAndFeelException, IOException,
+            ClassNotFoundException, InstantiationException, IllegalAccessException {
         Calculator C1 = new Calculator(1);
-
-        /*
-        public void thread_the_creator() {
-            new Thread(() -> {
-                // code
-            }).start();
-        }
-         */
     }
 }
