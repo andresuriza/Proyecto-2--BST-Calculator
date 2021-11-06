@@ -189,7 +189,7 @@ public class Calculator {
 
         leftPar.addActionListener(e -> {
             try {
-                button_logic("(", "operand");
+                button_logic("( ", "operand");
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -197,7 +197,7 @@ public class Calculator {
 
         rightPar.addActionListener(e -> {
             try {
-                button_logic(")", "operand");
+                button_logic(" )", "operand");
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
