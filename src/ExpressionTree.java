@@ -68,8 +68,6 @@ public class ExpressionTree {
 		System.out.println(expression.length);
 
 		while (i < expression.length) {
-			System.out.println(i);
-			System.out.println(buildStack);
 			if (!isOperator(expression[i])) {
 				top = new Node(expression[i]);
 				buildStack.push(top);
